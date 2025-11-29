@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskFlow UI/UX 디자인</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+        background: #ffffff;
+        color: #333333;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .section {
+        padding: 60px 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .section:last-child {
+        border-bottom: none;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #333333;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .section-subtitle {
+        font-size: 1.3rem;
+        font-weight: 400;
+        color: #666666;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin: 40px 0;
+      }
+
+      .grid-item {
+        background: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 25px;
+      }
+
+      .grid-item h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333333;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #333333;
+        padding-bottom: 8px;
+      }
+
+      .grid-item ul {
+        list-style: none;
+      }
+
+      .grid-item li {
+        margin-bottom: 10px;
+        padding-left: 20px;
+        position: relative;
+      }
+
+      .grid-item li::before {
+        content: "•";
+        color: #333333;
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+      }
+
+      .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+      }
+
+      .stat-card {
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 25px;
+        text-align: center;
+      }
+
+      .stat-card h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #666666;
+        margin-bottom: 10px;
+      }
+
+      .stat-card .number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333333;
+        margin: 15px 0;
+      }
+
+      .task-item {
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-left: 4px solid #333333;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .task-item.completed {
+        opacity: 0.6;
+      }
+
+      .task-item.completed .task-title {
+        text-decoration: line-through;
+        color: #999999;
+      }
+
+      .task-checkbox {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #e0e0e0;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .task-checkbox.checked {
+        background: #333333;
+        border-color: #333333;
+        color: white;
+      }
+
+      .task-content {
+        flex: 1;
+      }
+
+      .task-title {
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #333333;
+      }
+
+      .task-meta {
+        display: flex;
+        gap: 10px;
+        font-size: 0.85rem;
+      }
+
+      .badge {
+        padding: 4px 8px;
+        border-radius: 3px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        background: #f0f0f0;
+        color: #333333;
+      }
+
+      .highlight-box {
+        background: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        padding: 30px;
+        border-radius: 4px;
+        margin: 30px auto;
+        max-width: 800px;
+        text-align: center;
+      }
+
+      .highlight-box h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #333333;
+        margin-bottom: 15px;
+      }
+
+      .highlight-box p {
+        color: #666666;
+        line-height: 1.6;
+      }
+
+      .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+      }
+
+      .tech-item {
+        background: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 20px;
+      }
+
+      .tech-item h4 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #333333;
+        margin-bottom: 10px;
+      }
+
+      .tech-item ul {
+        list-style: none;
+      }
+
+      .tech-item li {
+        margin-bottom: 5px;
+        padding-left: 15px;
+        position: relative;
+        font-size: 0.9rem;
+        color: #666666;
+      }
+
+      .tech-item li::before {
+        content: "•";
+        color: #333333;
+        position: absolute;
+        left: 0;
+      }
+
+      .login-preview {
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 40px;
+        text-align: center;
+        margin: 30px auto;
+        max-width: 400px;
+      }
+
+      .login-preview h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #333333;
+        margin-bottom: 10px;
+      }
+
+      .login-preview p {
+        color: #666666;
+        margin-bottom: 30px;
+      }
+
+      .form-input {
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 12px;
+        margin-bottom: 15px;
+        width: 100%;
+        font-size: 1rem;
+      }
+
+      .login-btn {
+        background: #333333;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 4px;
+        width: 100%;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .roadmap-item {
+        background: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 25px;
+        margin-bottom: 20px;
+      }
+
+      .roadmap-item h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333333;
+        margin-bottom: 15px;
+      }
+
+      .roadmap-item ul {
+        list-style: none;
+      }
+
+      .roadmap-item li {
+        margin-bottom: 8px;
+        padding-left: 20px;
+        position: relative;
+        color: #666666;
+      }
+
+      .roadmap-item li::before {
+        content: "•";
+        color: #333333;
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+      }
+
+      .color-palette {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 15px;
+        margin: 30px 0;
+      }
+
+      .color-swatch {
+        padding: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        text-align: center;
+        background: #f8f9fa;
+      }
+
+      .color-swatch h4 {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #333333;
+        margin-bottom: 8px;
+      }
+
+      .color-swatch .color-code {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #333333;
+        margin-bottom: 5px;
+      }
+
+      .color-swatch .color-hex {
+        font-size: 0.8rem;
+        color: #666666;
+      }
+
+      .intro-content {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 0;
+      }
+
+      .intro-content h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #333333;
+        margin-bottom: 30px;
+      }
+
+      .intro-content p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #666666;
+        margin-bottom: 30px;
+      }
+
+      @media (max-width: 768px) {
+        .section {
+          padding: 40px 0;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .grid-container {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .stats-container {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media print {
+        body {
+          font-size: 12pt;
+          line-height: 1.4;
+        }
+
+        .section {
+          padding: 20px 0;
+          page-break-inside: avoid;
+        }
+
+        .section-title {
+          font-size: 24pt;
+          page-break-after: avoid;
+        }
+
+        .grid-container {
+          grid-template-columns: 1fr;
+        }
+
+        .stats-container {
+          grid-template-columns: 1fr;
+        }
+
+        .grid-item,
+        .stat-card,
+        .task-item,
+        .roadmap-item,
+        .tech-item {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Title Section -->
+    <div class="section">
+      <div class="container">
+        <div class="intro-content">
+          <h1 class="section-title">TaskFlow</h1>
+          <p>12400329 김경호</p>
+          <h2 class="section-subtitle">UI/UX 디자인</h2>
+          <p>
+            개인 업무 관리 애플리케이션. 사용자 중심의 직관적인 할 일 관리
+            솔루션입니다. 간단한 디자인과 효율적인 기능으로 사용자의 생산성을
+            높이는 것을 목표로 합니다.
+          </p>
+          <div class="highlight-box">
+            <h3>핵심 가치</h3>
+            <p>
+              직관적인 인터페이스와 간편한 사용법으로 누구나 쉽게 사용할 수 있는
+              할 일 관리 도구입니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Overview Section -->
+    <div class="section">
+      <div class="container">
+        <h1 class="section-title">프로젝트 개요</h1>
+        <h2 class="section-subtitle">TaskFlow 소개 및 주요 기능</h2>
+
+        <div class="grid-container">
+          <div class="grid-item">
+            <h3>프로젝트 소개</h3>
+            <ul>
+              <li>간단한 개인 업무 관리</li>
+              <li>웹 기반 크로스플랫폼</li>
+              <li>실시간 동기화</li>
+              <li>모바일 최적화</li>
+              <li>RESTful API 기반</li>
+            </ul>
+          </div>
+          <div class="grid-item">
+            <h3>주요 기능</h3>
+            <ul>
+              <li>사용자 인증 (회원가입/로그인)</li>
+              <li>할 일 CRUD 기능</li>
+              <li>카테고리 및 우선순위</li>
+              <li>마감일 설정</li>
+              <li>통계 및 데이터 시각화</li>
+              <li>필터링 및 정렬</li>
+            </ul>
+          </div>
+          <div class="grid-item">
+            <h3>기술 스택</h3>
+            <ul>
+              <li>프론트엔드: HTML5, CSS3, JavaScript</li>
+              <li>프레임워크: Bootstrap 5</li>
+              <li>백엔드: Node.js, Express.js</li>
+              <li>데이터베이스: MongoDB</li>
+              <li>인증: JWT, bcrypt</li>
+              <li>보안: CORS, XSS 방지</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Screen Section -->
+    <div class="section">
+      <div class="container">
+        <h1 class="section-title">로그인 화면 디자인</h1>
+        <h2 class="section-subtitle">사용자 친화적인 인터페이스</h2>
+
+        <div class="login-preview">
+          <h3>TaskFlow</h3>
+          <p>간단한 개인 업무 관리</p>
+          <div style="text-align: left">
+            <input
+              type="text"
+              class="form-input"
+              placeholder="이메일을 입력하세요"
+              disabled
+            />
+            <input
+              type="password"
+              class="form-input"
+              placeholder="비밀번호를 입력하세요"
+              disabled
+            />
+            <button class="login-btn">로그인</button>
+            <div
+              style="
+                text-align: center;
+                margin-top: 15px;
+                color: #666666;
+                font-size: 0.9rem;
+              "
+            >
+              계정이 없으신가요? <a href="#" style="color: #333333">회원가입</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-container">
+          <div class="grid-item">
+            <h3>디자인 특징</h3>
+            <ul>
+              <li>깔끔한 중앙 정렬 레이아웃</li>
+              <li>최소한의 시각 요소</li>
+              <li>사용하기 쉬운 폼 디자인</li>
+              <li>반응형 모바일 지원</li>
+              <li>실시간 유효성 검사</li>
+            </ul>
+          </div>
+          <div class="grid-item">
+            <h3>주요 요소</h3>
+            <ul>
+              <li>로고와 서비스명</li>
+              <li>이메일 입력 필드</li>
+              <li>비밀번호 입력 필드</li>
+              <li>로그인 버튼</li>
+              <li>회원가입 전환 링크</li>
+              <li>간단한 에러 메시지</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Dashboard Section -->
+    <div class="section">
+      <div class="container">
+        <h1 class="section-title">메인 대시보드</h1>
+        <h2 class="section-subtitle">정보 구조와 직관적인 UI</h2>
+
+        <h3
+          style="
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333333;
+            margin: 30px 0;
+            text-align: center;
+          "
+        >
+          통계 카드
+        </h3>
+        <div class="stats-container">
+          <div class="stat-card">
+            <h3>전체 할 일</h3>
+            <div class="number">24</div>
+            <p>사용자의 전체 작업량</p>
+          </div>
+          <div class="stat-card">
+            <h3>완료된 할 일</h3>
+            <div class="number">18</div>
+            <p>완료된 작업의 수</p>
+          </div>
+          <div class="stat-card">
+            <h3>진행률</h3>
+            <div class="number">75%</div>
+            <p>전체 완료율</p>
+          </div>
+        </div>
+
+        <div class="grid-container">
+          <div class="grid-item">
+            <h3>레이아웃 구성</h3>
+            <ul>
+              <li>상단 네비게이션 바</li>
+              <li>통계 카드 섹션</li>
+              <li>새 할 일 추가 섹션</li>
+              <li>필터링 옵션</li>
+              <li>할 일 목록</li>
+              <li>수정 모달</li>
+            </ul>
+          </div>
+          <div class="grid-item">
+            <h3>UX 포인트</h3>
+            <ul>
+              <li>한눈에 보이는 통계</li>
+              <li>빠른 할 일 추가</li>
+              <li>효율적인 필터링</li>
+              <li>직관적인 목록 표시</li>
+              <li>상태 기반 구분</li>
+              <li>반응형 디자인</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task List Design Section -->
+    <div class="section">
+      <div class="container">
+        <h1 class="section-title">할 일 목록 디자인</h1>
+        <h2 class="section-subtitle">리스트 UI와 시각적 구분</h2>
+
+        <h3
+          style="
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333333;
+            margin: 30px 0;
+            text-align: center;
+          "
+        >
+          할 일 목록 예시
+        </h3>
+        <div class="task-item">
+          <div class="task-checkbox"></div>
+          <div class="task-content">
+            <div class="task-title">React 프로젝트 마무리</div>
+            <div class="task-meta">
+              <span class="badge">업무</span>
+              <span class="badge">보통</span>
+              <span class="badge">오늘 마감</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="task-item completed">
+          <div class="task-checkbox checked">✓</div>
+          <div class="task-content">
+            <div class="task-title">JavaScript 공부</div>
+            <div class="task-meta">
+              <span class="badge">학습</span>
+              <span class="badge">낮음</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="task-item">
+          <div class="task-checkbox"></div>
+          <div class="task-content">
+            <div class="task-title">운동 1시간</div>
+            <div class="task-meta">
+              <span class="badge">건강</span>
+              <span class="badge">높음</span>
+              <span class="badge">내일 마감</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-container">
+          <div class="grid-item">
+            <h3>리스트 레이아웃 특징</h3>
+            <ul>
+              <li>체크박스: 완료 상태</li>
+              <li>제목: 가독성 높은 텍스트</li>
+              <li>메타 정보: 카테고리, 우선순위</li>
+              <li>액션 버튼: 수정, 삭제</li>
+              <li>호버 효과: 인터랙티브 피드백</li>
+            </ul>
+          </div>
+          <div class="grid-item">
+            <h3>시각적 구분</h3>
+            <ul>
+              <li>완료 상태: 투명도, 취소선</li>
+              <li>우선순위: 왼쪽 테두리 색상</li>
+              <li>마감일: 배지로 긴급성 표시</li>
+              <li>카테고리: 색상 구분</li>
+              <li>애니메이션: 부드러운 전환</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Design System Section -->
+    <div class="section">
+      <div class="container">
+        <h1 class="section-title">디자인 시스템</h1>
+        <h2 class="section-subtitle">일관된 UI/UX를 위한 가이드라인</h2>
+
+        <h3
+          style="
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333333;
+            margin: 30px 0;
+            text-align: center;
+          "
+        >
+          컬러 팔레트
+        </h3>
+        <div class="color-palette">
+          <div class="color-swatch">
+            <h4>Primary</h4>
+            <div class="color-code">메인</div>
+            <div class="color-hex">#333333</div>
+          </div>
+          <div class="color-swatch">
+            <h4>Success</h4>
+            <div class="color-code">성공</div>
+            <div class="color-hex">#28a745</div>
+          </div>
+          <div class="color-swatch">
+            <h4>Info</h4>
+            <div class="color-code">정보</div>
+            <div class="color-hex">#17a2b8</div>
+          </div>
+          <div class="color-swatch">
+            <h4>Warning</h4>
+            <div class="color-code">경고</div>
+            <div class="color-hex">#ffc107</div>
+          </div>
+          <div class="color-swatch">
+            <h4>Danger</h4>
+            <div class="color-code">위험</div>
+            <div class="color-hex">#dc3545</div>
+          </div>
+          <div class="color-swatch">
+            <h4>Background</h4>
+            <div class="color-code">배경</div>
+            <div class="color-hex">#f8f9fa</div>
+          </div>
+        </div>
+
+        <div class="grid-container">
+          <div class="grid-item">
+            <h3>타이포그래피</h3>
+            <ul>
+              <li>폰트: 시스템 기본 폰트</li>
+              <li>가중치: Light, Regular, Bold</li>
+              <li>제목 크기: 2.5rem, 2rem, 1.5rem</li>
+              <li>본문 크기: 1.1rem, 1rem, 0.875rem</li>
+              <li>라인 하이트: 1.6</li>
+            </ul>
+          </div>
+          <div class="grid-item">
+            <h3>컴포넌트</h3>
+            <ul>
+              <li>버튼: 4px 둥근 모서리</li>
+              <li>카드: 4px 둥근 모서리</li>
+              <li>폼: 1px 테두리</li>
+              <li>배지: 3px 둥근 모서리</li>
+              <li>애니메이션: 0.2s ease</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Responsive Design Section -->
+    <div class="section">
+      <div class="container">
+        <h1 class="section-title">반응형 디자인</h1>
+        <h2 class="section-subtitle">모든 디바이스를 위한 최적화</h2>
+
+        <div class="grid-container">
+          <div class="grid-item">
+            <h3>데스크톱 (1200px+)</h3>
+            <ul>
+              <li>3단 통계 카드 레이아웃</li>
+              <li>2단 할 일 추가/필터 레이아웃</li>
+              <li>최대화된 모달 크기</li>
+              <li>풀 기능 UI</li>
+              <li>마우스 인터랙션 최적화</li>
+            </ul>
+          </div>
+          <div class="grid-item">
+            <h3>태블릿 (768px-1199px)</h3>
+            <ul>
+              <li>1단 통계 카드 수직 정렬</li>
+              <li>할 일 추가/필터 수직 정렬</li>
+              <li>적절한 모달 크기</li>
+              <li>터치와 마우스 동시 지원</li>
+              <li>세로/가로 방향 최적화</li>
+            </ul>
+          </div>
+          <div class="grid-item">
+            <h3>모바일 (576px-767px)</h3>
+            <ul>
+              <li>전체 화면 너비 활용</li>
+              <li>수직 스택 레이아웃</li>
+              <li>터치 친화적 버튼</li>
+              <li>세로 방향 최적화</li>
+              <li>최소화된 패딩</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid-container">
+          <div class="grid-item">
+            <h3>주요 최적화 포인트</h3>
+            <ul>
+              <li>유동 그리드: Flexbox와 Grid</li>
+              <li>유연한 이미지: max-width: 100%</li>
+              <li>터치 최적화: 최소 44px 버튼</li>
+              <li>미디어 쿼리: 중단점별 스타일</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Future Improvements Section -->
+    <div class="section">
+      <div class="container">
+        <h1 class="section-title">향후 개선 방향</h1>
+        <h2 class="section-subtitle">TaskFlow의 미래를 위한 로드맵</h2>
+
+        <div class="roadmap-item">
+          <h3>단기 개선안 (1-3개월)</h3>
+          <ul>
+            <li>검색 기능 추가</li>
+            <li>드래그 앤 드롭 순서 변경</li>
+            <li>푸시 알림 시스템</li>
+            <li>음성 입력 지원</li>
+            <li>테마 기능 (다크/라이트 모드)</li>
+            <li>데이터 백업 및 복원</li>
+          </ul>
+        </div>
+
+        <div class="roadmap-item">
+          <h3>중기 개선안 (3-6개월)</h3>
+          <ul>
+            <li>칸반 보드 기능</li>
+            <li>팀 협업 기능</li>
+            <li>파일 첨부 기능</li>
+            <li>고급 통계 및 시각화</li>
+            <li>할 일 템플릿 시스템</li>
+            <li>타이머 및 집중 모드</li>
+          </ul>
+        </div>
+
+        <div class="roadmap-item">
+          <h3>장기 개선안 (6개월 이상)</h3>
+          <ul>
+            <li>AI 기반 추천 시스템</li>
+            <li>캘린더 연동</li>
+            <li>PWA 오프라인 모드</li>
+            <li>다국어 지원</li>
+            <li>데스크톱 앱</li>
+            <li>API 통합</li>
+          </ul>
+        </div>
+
+        <div class="highlight-box">
+          <h3>지속적인 사용자 경험 개선</h3>
+          <p>
+            사용자 피드백을 기반으로 지속적으로 발전하는 것이 목표입니다. 기술
+            혁신과 사용자 중심 디자인을 통해 최고의 업무 관리 경험을 제공합니다.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thank You Section -->
+    <div class="section">
+      <div class="container">
+        <div class="intro-content">
+          <h1 class="section-title">감사합니다</h1>
+          <h2 class="section-subtitle">TaskFlow</h2>
+
+          <div class="tech-grid">
+            <div class="tech-item">
+              <h4>프론트엔드</h4>
+              <ul>
+                <li>HTML5</li>
+                <li>CSS3</li>
+                <li>JavaScript</li>
+                <li>Bootstrap 5</li>
+              </ul>
+            </div>
+            <div class="tech-item">
+              <h4>백엔드</h4>
+              <ul>
+                <li>Node.js</li>
+                <li>Express.js</li>
+                <li>MongoDB</li>
+                <li>JWT</li>
+              </ul>
+            </div>
+            <div class="tech-item">
+              <h4>보안</h4>
+              <ul>
+                <li>bcrypt</li>
+                <li>CORS</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
